@@ -14,19 +14,19 @@ Ana María Orozco Reyes
 **2025-II**
 ---
 
-## Descripción detallada de la solución planteada.
+## Descripción detallada de la solución planteada:
 
-## Diagrama de flujo 
+## Diagrama de flujo:
 ---
-## Plano de planta de la ubicación de cada uno de los elementos.
+## Plano de planta de la ubicación de cada uno de los elementos:
 ---
-## Descripción de las funciones utilizadas.
+## Descripción de las funciones utilizadas:
 ---
-## Código del script utilizado para el desarrollo de la práctica.
+## Código del script utilizado para el desarrollo de la práctica:
 ---
-## Vídeo del brazo alcanzando cada posición solicitada.
+## Vídeo del brazo alcanzando cada posición solicitada:
 ---
-## Vídeo demostración de uso de la interfaz de usuario.
+## Vídeo demostración de uso de la interfaz de usuario:
 ---
-## Gráfica digital de las poses comparándola con la fotografáa del brazo real en la misma configuración
+## Gráfica digital de las poses comparándola con la fotografáa del brazo real en la misma configuración:
 ---
