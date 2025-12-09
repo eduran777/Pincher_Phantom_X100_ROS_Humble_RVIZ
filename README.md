@@ -330,6 +330,5 @@ El código utilizado para implementar la solución se encuentra en la siguiente 
 Link del video:
 [https://drive.google.com/file/d/1SspAiQ4TFuPGkakJVEnGYX0Zsdlxu_ms/view?usp=sharing](https://drive.google.com/file/d/1SspAiQ4TFuPGkakJVEnGYX0Zsdlxu_ms/view?usp=sharing)
 
----
-## Gráfica digital de las poses comparándola con la fotografáa del brazo real en la misma configuración:
+* Nota : se incluyen en el video las comparaciones de las graficas digitales y las poses reales tomadas por el robot pincher.
 ---
