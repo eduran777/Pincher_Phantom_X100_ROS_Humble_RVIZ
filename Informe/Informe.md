@@ -320,6 +320,9 @@ Inicia el ciclo principal de Tkinter (`mainloop`) y mantiene la interfaz activa 
 
 ---
 ## Código del script utilizado para el desarrollo de la práctica:
+
+El código utilizado para implementar la solución se encuentra en la siguiente ubicación del repositorio:
+[codigo.py](./Codigo/codigo.py)
 ---
 ## Vídeo del brazo alcanzando cada posición solicitada:
 ---
