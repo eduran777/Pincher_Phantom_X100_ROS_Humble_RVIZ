@@ -20,7 +20,7 @@ Ana María Orozco Reyes
 
 ### Diagrama general
 <p align="center">
-<img src="Imagenes/dgeneral.png" alt="UNAL" width="600"/>
+<img src="Imagenes/dgeneral.png" alt="UNAL" width="700"/>
 </p>
 El diagrama general muestra el ciclo de vida completo de la aplicación. El proceso inicia con la configuración de ROS2 y la creación del nodo controlador del brazo robótico, pasando por la configuración y comprobación de los motores Dynamixel. Si todo es exitoso, se lanza el hilo de ROS2 y la interfaz gráfica de usuario (GUI), permitiendo al usuario interactuar con el robot mediante diversas opciones, incluida la visualización en RViz. Todo el flujo está pensado para la seguridad, el monitoreo de estados y la capacidad de cerrar la aplicación de manera controlada, incluso ante errores de conexión o cierre inesperado.
 
@@ -33,7 +33,7 @@ Durante la inicialización, el sistema realiza una serie de comprobaciones crít
 
 ### Lógica principal y acciones de usuario
 <p align="center">
-<img src="Imagenes/dusuario.png" alt="UNAL" width="600"/>
+<img src="Imagenes/dusuario.png" alt="UNAL" width="700"/>
 </p>
 En el diagrama de lógica principal, el usuario puede interactuar con la aplicación mediante la GUI, seleccionando diferentes acciones como mover motores individualmente o todos a la vez, cambiar la velocidad, ejecutar rutinas de movimientos predefinidos ("poses"), enviar a HOME, lanzar o detener la visualización en RViz y activar la parada de emergencia. Cada acción se valida y ejecuta, tras lo cual el sistema retorna al estado de espera de nuevas instrucciones, proporcionando una operación segura y fluida.
 
