@@ -16,6 +16,100 @@ Ana María Orozco Reyes
 
 ## Descripción detallada de la solución planteada:
 
+
+La solución presentada integra **tres componentes principales**:
+
+1. un controlador del robot basado en ROS2,
+2. una ventana gráfica para manipular el brazo de manera intuitiva,
+3. herramientas para visualizar en RViz y monitorear la posición real del robot.
+
+El objetivo es ofrecer una plataforma completa que permita **mover el robot, ver su estado en tiempo real y trabajar de forma segura**, tanto para pruebas como para prácticas de laboratorio.
+
+---
+
+### Comunicación con los motores Dynamixel
+
+El sistema abre el puerto serial y establece la comunicación con cada motor del brazo. Durante el arranque, se activa su capacidad de movimiento, se configura la velocidad y se envía una posición inicial estable. Si algún motor no responde, el sistema lo reporta sin detener toda la aplicación.
+
+Se emplea una conversión interna entre **ángulos que ve el usuario (en grados)** y **valores que entienden los motores**, para que el control sea intuitivo. Esto hace que el usuario pueda mover articulaciones con valores humanos, mientras el sistema convierte esos datos al formato correcto.
+
+---
+
+### Publicación del estado del robot en ROS2
+
+Mientras la aplicación está en funcionamiento, el robot publica constantemente su estado articular. Esto permite que el modelo 3D en RViz se actualice en tiempo real y se pueda observar la postura del brazo sin necesidad de verlo físicamente.
+
+La publicación incluye los nombres de las articulaciones y los valores de cada una, expresados en radianes, siguiendo los estándares de ROS.
+
+---
+
+### Cálculo de la posición del efector final (TCP)
+
+El programa calcula de forma continua la **posición del extremo del robot** (el TCP).
+Para ello se usan los parámetros geométricos del robot y el ángulo actual de cada articulación. El resultado es una coordenada en el espacio (X, Y, Z) que representa dónde se encuentra la punta del brazo.
+
+Estos valores se actualizan y se muestran en la interfaz gráfica, lo cual ayuda a verificar que la postura del robot coincide con el modelo digital o con la aplicación que se esté desarrollando.
+
+---
+
+### Interfaz gráfica (GUI)
+
+La ventana principal está organizada en varias pestañas, cada una diseñada para un propósito:
+
+* Información inicial
+
+Presenta datos generales del proyecto y del equipo desarrollador.
+
+* Control con barras deslizantes
+
+Permite mover cada articulación manualmente.
+Cuando el usuario ajusta un valor, el robot se desplaza a ese ángulo y la interfaz muestra la lectura actualizada.
+
+### ● Control por entrada numérica
+
+Es posible escribir valores exactos para cada articulación.
+El sistema los valida y los envía al robot de forma segura.
+
+### ● Visualización en RViz
+
+Desde la propia ventana se puede abrir RViz con el modelo del robot listo para ver.
+También es posible detenerlo cuando ya no se necesite.
+
+### ● Poses predefinidas
+
+Incluye movimientos organizados en secuencias.
+Cada postura se ejecuta paso a paso, sin detener la interfaz, lo que facilita demostraciones o rutinas repetibles.
+
+### ● Cálculo del TCP
+
+Muestra la posición actual del efector final usando los valores obtenidos por la cinemática directa.
+
+---
+
+## Manejo seguro y parada de emergencia
+
+El sistema incorpora una **parada de emergencia** que desactiva inmediatamente la capacidad de moverse.
+Mientras está activada, ningún comando se envía al robot, lo que evita movimientos accidentales.
+
+La interfaz permite volver a activar el torque cuando sea seguro continuar.
+También, al cerrar la aplicación, se ofrece confirmación para evitar dejar motores encendidos sin supervisión.
+
+---
+
+## Integración con ROS2 y RViz
+
+Uno de los puntos fuertes de esta solución es su capacidad de trabajar directamente con el ecosistema de ROS2.
+Desde la interfaz:
+
+* se puede abrir RViz con el modelo del robot,
+* se observa la postura del brazo en tiempo real,
+* se puede detener el proceso sin tener que abrir terminales adicionales.
+
+Además, el controlador tiene parámetros configurables, como el puerto, el baudrate o los identificadores de los motores, lo cual permite adaptar el sistema sin modificar el código.
+
+
+
+---
 ## Diagrama de flujo:
 
 ### Diagrama general
