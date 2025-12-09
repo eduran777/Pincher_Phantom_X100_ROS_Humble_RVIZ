@@ -116,12 +116,19 @@ En el diagrama de lógica principal, el usuario puede interactuar con la aplicac
 
 ### Diagrama vertical de parada de emergencia y cierre seguro
 <p align="center">
-<img src="Informe/Imagenes/dparada.png" alt="UNAL" width="400"/>
+<img src="Informe/Imagenes/dparada.png" alt="UNAL" width="800"/>
 </p>
 El diagrama de parada de emergencia y cierre seguro describe el flujo que debe seguir el sistema cuando se detecta una situación anómala o cuando el usuario solicita cerrar la aplicación. Al activar la parada de emergencia, el sistema desactiva el torque de todos los motores, marca el estado de emergencia y bloquea los controles de la interfaz hasta nueva orden. Si el usuario decide cerrar la aplicación, el sistema primero verifica si RViz está activo para detenerlo, luego apaga todos los motores, cierra el puerto de comunicación, y finalmente apaga ROS2 y libera todos los recursos, garantizando un cierre seguro y evitando daños en el hardware.
 
 ---
 ## Plano de planta de la ubicación de cada uno de los elementos:
+
+<p align="center">
+<img src="Informe/Imagenes/planoplanta.png" alt="UNAL" width="400"/>
+</p>
+
+
+
 ---
 
 
