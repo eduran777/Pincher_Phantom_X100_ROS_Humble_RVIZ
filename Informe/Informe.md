@@ -46,7 +46,201 @@ El diagrama de parada de emergencia y cierre seguro describe el flujo que debe s
 ---
 ## Plano de planta de la ubicación de cada uno de los elementos:
 ---
+
+
+
 ## Descripción de las funciones utilizadas:
+
+### 1. Funciones Auxiliares (Comunicación con Dynamixel)
+
+#### **1.1 write_goal_position(packet, port, dxl_id, position)**
+
+Envía un comando al motor Dynamixel para moverse a una posición especificada en ticks. Usa el protocolo de escritura adecuado (1.0 o 2.0) y devuelve el resultado de la operación.
+
+#### **1.2 write_moving_speed(packet, port, dxl_id, speed)**
+
+Configura la velocidad del motor escribiendo en el registro de velocidad correspondiente, usando 2 o 4 bytes según el modelo del motor.
+
+#### **1.3 read_present_position(packet, port, dxl_id)**
+
+Lee la posición actual de un motor Dynamixel desde su registro interno y devuelve el valor en ticks.
+
+---
+
+### 2. Clase PincherController (Nodo ROS2)
+
+#### **2.1 **init**()**
+
+Inicializa el nodo ROS2, carga parámetros, crea la comunicación con Dynamixel, configura los publicadores, asigna estructuras internas de articulaciones, inicializa los motores y calcula la posición del TCP.
+
+#### **2.2 dh_transform(a, alpha, d, theta)**
+
+Genera una matriz de transformación homogénea de 4×4 utilizando los parámetros Denavit–Hartenberg estándar.
+
+#### **2.3 update_tcp_position()**
+
+Aplica la cinemática directa multiplicando las matrices DH de cada articulación. Actualiza la posición final del TCP (x, y, z).
+
+#### **2.4 dxl_to_radians(dxl_value)**
+
+Convierte un valor de ticks Dynamixel al ángulo equivalente en radianes.
+
+#### **2.5 radians_to_dxl(radians)**
+
+Convierte un ángulo en radianes a su valor en ticks para el motor Dynamixel.
+
+#### **2.6 dxl_to_degrees(dxl_value)**
+
+Convierte ticks Dynamixel a grados, usando la conversión previa a radianes.
+
+#### **2.7 publish_joint_states()**
+
+Publica un mensaje `JointState` con las posiciones actuales de las articulaciones para su visualización en RViz.
+
+#### **2.8 initialize_motors(goal_positions, moving_speed, torque_limit)**
+
+Configura todos los motores habilitando torque, estableciendo su velocidad, moviéndolos a la posición HOME y sincronizando los valores internos con RViz.
+
+#### **2.9 move_motor(motor_id, position_ticks)**
+
+Envía un comando para mover un motor a una posición específica en ticks, actualizando además la posición interna de la articulación.
+
+#### **2.10 update_speed_single_motor(motor_id, speed)**
+
+Actualiza la velocidad de un motor individual escribiendo en su registro correspondiente.
+
+#### **2.11 update_speed(speed)**
+
+Cambia la velocidad de todos los motores simultáneamente, siempre que el sistema no esté en estado de emergencia.
+
+#### **2.12 home_all_motors()**
+
+Lleva todos los motores a la posición HOME (DEFAULT_GOAL). Si había una parada de emergencia, reactiva primero el torque.
+
+#### **2.13 r2_all_motors(list_q)**
+
+Mueve los motores 1–4 a posiciones dadas en radianes, convirtiéndolas primero a ticks Dynamixel.
+
+#### **2.14 emergency_stop()**
+
+Desactiva inmediatamente el torque de todos los motores y habilita la bandera de “parada de emergencia” para bloquear futuros movimientos.
+
+#### **2.15 reactivate_torque()**
+
+Reactiva el torque de los motores luego de una parada de emergencia.
+
+#### **2.16 close()**
+
+Desactiva los motores y cierra el puerto serial antes de finalizar el nodo.
+
+---
+
+### 3. Clase PincherGUI (Interfaz Gráfica)
+
+#### **3.1 **init**(controller)**
+
+Construye la ventana principal con pestañas, sliders, controles RViz, botones comunes y une la GUI con el controlador ROS2.
+
+---
+
+### 4. Pestañas de la GUI
+
+#### **4.1 setup_intro_tab()**
+
+Configura la pestaña introductoria con el título del laboratorio, integrantes y logos ASCII.
+
+#### **4.2 setup_tab1()**
+
+Crea la pestaña con sliders que permiten mover cada motor en tiempo real usando ángulos en grados.
+
+#### **4.3 setup_tab2()**
+
+Pestaña para ingresar valores numéricos de ángulos manualmente, con función de mover individual o mover todos secuencialmente.
+
+#### **4.4 setup_tab3()**
+
+Incluye los botones para lanzar o detener RViz y muestra en tiempo real los valores articulares publicados por el nodo.
+
+#### **4.5 setup_tab4()**
+
+Contiene botones para ejecutar poses preestablecidas y muestra los valores reales de cada articulación en grados.
+
+#### **4.6 setup_tab5()**
+
+Muestra el TCP del robot calculado mediante cinemática directa, actualizándose en tiempo real.
+
+---
+
+### 5. Timers y Actualizaciones Automáticas
+
+#### **5.1 update_tcp_labels()**
+
+Actualiza continuamente las etiquetas del TCP (x,y,z) en milímetros dentro de la pestaña 5.
+
+#### **5.2 update_joints_timer()**
+
+Actualiza el valor de cada articulación en todas las pestañas que lo requieren (por ejemplo RViz y Poses).
+
+---
+
+### 6. Eventos y Manejo de la Interfaz
+
+#### **6.1 on_motor_slider_change(motor_id)**
+
+Se activa al mover un slider. Convierte el valor a ticks, mueve el motor y actualiza la interfaz si no hay emergencia.
+
+#### **6.2 on_speed_slider_change(value)**
+
+Cambia la velocidad general del robot, sincroniza sliders entre pestañas y actualiza el estado.
+
+#### **6.3 move_single_motor_from_entry(motor_id)**
+
+Mueve un motor según el valor ingresado manualmente en un campo de texto, validando rango y tipo de dato.
+
+#### **6.4 move_all_motors_from_entries()**
+
+Lee todos los valores ingresados y mueve cada motor en secuencia con un delay de 800 ms para evitar congelamiento de la GUI.
+
+#### **6.5 run_routine_with_delay(list_q_rad)**
+
+Ejecuta una pose articulada (lista q1–q4) moviendo cada articulación de forma escalonada.
+
+#### **6.6 _move_all_sequence_step(...)**
+
+Función recursiva que implementa el movimiento secuencial con `after(800 ms)` para mantener fluida la GUI.
+
+---
+
+### 7. Control del Sistema y RViz
+
+#### **7.1 home_all()**
+
+Manda todos los motores a la posición HOME y actualiza la interfaz. Maneja el caso de emergencia previa.
+
+#### **7.2 launch_rviz()**
+
+Inicia RViz + robot_state_publisher en un proceso separado mediante un archivo launch.
+
+#### **7.3 stop_rviz()**
+
+Detiene el proceso RViz si está en ejecución.
+
+#### **7.4 on_rviz_closed()**
+
+Actualiza la interfaz cuando el proceso de RViz se cierra (manualmente o de forma externa).
+
+---
+
+### 8. Cierre del Programa
+
+#### **8.1 on_close()**
+
+Cierra RViz, desactiva motores, apaga ROS2 y destruye la ventana de forma segura cuando el usuario intenta salir.
+
+#### **8.2 run()**
+
+Inicia el ciclo principal de Tkinter (`mainloop`) y mantiene la interfaz activa hasta que sea cerrada.
+
 ---
 ## Código del script utilizado para el desarrollo de la práctica:
 ---
