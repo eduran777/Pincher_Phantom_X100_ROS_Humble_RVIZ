@@ -325,9 +325,9 @@ El código utilizado para implementar la solución se encuentra en la siguiente 
 [codigo.py](../Codigo/codigo.py)
 
 ---
-## Vídeo del brazo alcanzando cada posición solicitada:
----
-## Vídeo demostración de uso de la interfaz de usuario:
+## Vídeo del brazo alcanzando cada posición solicitada y de la interfaz de usuario desarrollada:
+[https://drive.google.com/uc?id=1SspAiQ4TFuPGkakJVEnGYX0Zsdlxu_ms&export=download](https://drive.google.com/uc?id=1SspAiQ4TFuPGkakJVEnGYX0Zsdlxu_ms&export=download)
+
 ---
 ## Gráfica digital de las poses comparándola con la fotografáa del brazo real en la misma configuración:
 ---
