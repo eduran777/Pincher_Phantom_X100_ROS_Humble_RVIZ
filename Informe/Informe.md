@@ -65,28 +65,28 @@ Presenta datos generales del proyecto y del equipo desarrollador.
 Permite mover cada articulación manualmente.
 Cuando el usuario ajusta un valor, el robot se desplaza a ese ángulo y la interfaz muestra la lectura actualizada.
 
-### ● Control por entrada numérica
+* Control por entrada numérica
 
 Es posible escribir valores exactos para cada articulación.
 El sistema los valida y los envía al robot de forma segura.
 
-### ● Visualización en RViz
+* Visualización en RViz
 
 Desde la propia ventana se puede abrir RViz con el modelo del robot listo para ver.
 También es posible detenerlo cuando ya no se necesite.
 
-### ● Poses predefinidas
+* Poses predefinidas
 
 Incluye movimientos organizados en secuencias.
 Cada postura se ejecuta paso a paso, sin detener la interfaz, lo que facilita demostraciones o rutinas repetibles.
 
-### ● Cálculo del TCP
+* Cálculo del TCP
 
 Muestra la posición actual del efector final usando los valores obtenidos por la cinemática directa.
 
 ---
 
-## Manejo seguro y parada de emergencia
+### Manejo seguro y parada de emergencia
 
 El sistema incorpora una **parada de emergencia** que desactiva inmediatamente la capacidad de moverse.
 Mientras está activada, ningún comando se envía al robot, lo que evita movimientos accidentales.
@@ -96,7 +96,7 @@ También, al cerrar la aplicación, se ofrece confirmación para evitar dejar mo
 
 ---
 
-## Integración con ROS2 y RViz
+### Integración con ROS2 y RViz
 
 Uno de los puntos fuertes de esta solución es su capacidad de trabajar directamente con el ecosistema de ROS2.
 Desde la interfaz:
